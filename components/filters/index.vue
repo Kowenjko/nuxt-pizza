@@ -10,13 +10,13 @@ const test = (event: any) => console.log(event)
 			class="mb-5 font-bold pb-4 border-b border-b-neutral-100"
 		/>
 		<div class="flex flex-col gap-4">
-			<FilterCheckbox
+			<FiltersCheckbox
 				name="Test"
 				text="test2"
 				value="Test3"
 				@onCheckedChange="test"
 			/>
-			<FilterCheckbox
+			<FiltersCheckbox
 				name="Test5"
 				text="test2"
 				value="Test3"
@@ -32,6 +32,33 @@ const test = (event: any) => console.log(event)
 		</div>
 	</div>
 	<RangeSlider :min="0" :max="3000" :step="10" :model-value="[500, 1700]" />
+	<FiltersCheckboxGroup
+		title="Формат"
+		name="ingredients"
+		class="mt-10"
+		:limit="4"
+		:default-items="[
+			{ text: 'Сир', value: '1' },
+			{ text: 'Сир 1', value: '2' },
+			{ text: 'Сир 2', value: '3' },
+			{ text: 'Сир 3', value: '4' },
+			{ text: 'Сир 4', value: '5' },
+			{ text: 'Сир 5', value: '6' },
+		]"
+		:items="[
+			{ text: 'Сир', value: '1' },
+			{ text: 'Сир 1', value: '2' },
+			{ text: 'Сир 2', value: '3' },
+			{ text: 'Сир 3', value: '4' },
+			{ text: 'Сир 4', value: '5' },
+			{ text: 'Сир 5', value: '6' },
+			{ text: 'Сир 6', value: '7' },
+			{ text: 'Сир 7', value: '8' },
+			{ text: 'Сир 8', value: '9' },
+			{ text: 'Сир 9', value: '10' },
+			{ text: 'Сир 10', value: '11' },
+		]"
+	/>
 </template>
 
 <style scoped></style>

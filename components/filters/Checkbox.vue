@@ -1,12 +1,12 @@
 <script setup lang="ts">
-interface IProps {
+interface FilterCheckboxProps {
 	text: string
 	value: string
 	checked?: boolean
 	name?: string
 }
 
-const props = defineProps<IProps>()
+const props = defineProps<FilterCheckboxProps>()
 
 const tempChecked = ref(props.checked || false)
 
@@ -19,7 +19,7 @@ watch(tempChecked, (value) =>
 <template>
 	<div class="flex items-center space-x-2">
 		<Checkbox
-			v-model:checked="tempChecked"
+			v-model="tempChecked"
 			class="rounded-[8px] w-6 h-6"
 			:id="`checkbox-${name}-${String(value)}`"
 		/>
