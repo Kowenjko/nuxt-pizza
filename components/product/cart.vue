@@ -10,9 +10,10 @@ defineProps<IProps>()
 </script>
 <template>
 	<div>
-		<nuxt-link :to="`product/${id}`">
+		<nuxt-link :to="`product/${id}`" class="group">
 			<div class="flex justify-center p-6 bg-secondary rounded-lg h-[260px]">
 				<nuxt-img
+					class="group-hover:translate-y-2 transition duration-300"
 					:src="imageUrl"
 					format="webp"
 					:alt="name"

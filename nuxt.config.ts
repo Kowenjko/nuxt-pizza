@@ -8,6 +8,7 @@ export default defineNuxtConfig({
 		'@nuxt/fonts',
 		'nuxt-lucide-icons',
 		'@nuxt/image',
+		'@pinia/nuxt',
 	],
 	fonts: {
 		families: [{ name: 'Nunito', provider: 'google' }],
