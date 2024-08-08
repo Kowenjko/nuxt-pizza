@@ -21,7 +21,7 @@ const { isActive, pause, resume } = useIntersectionObserver(
 	([{ isIntersecting }]) => {
 		isVisible.value = isIntersecting
 	},
-	{ threshold: 0.4 }
+	{ threshold: 0.74 }
 )
 
 watch(isVisible, () => {

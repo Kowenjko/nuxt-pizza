@@ -7,12 +7,20 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "prisma:reset": "prisma migrate reset",
+    "prisma:push": "prisma db push",
+    "prisma:preview": "prisma db pull",
+    "prisma:seed": "prisma db seed"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.7.1",
     "@nuxt/image": "^1.7.0",
     "@pinia/nuxt": "^0.5.3",
+    "@prisma/client": "^5.18.0",
     "@vueuse/core": "^10.11.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -25,10 +33,11 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul-vue": "^0.2.0",
-    "vue": "latest"
+    "vue": "^3.4.36"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "prisma": "^5.18.0",
     "typescript": "^5.5.4"
   }
 }

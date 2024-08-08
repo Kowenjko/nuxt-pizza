@@ -4,7 +4,7 @@
 
 html {
 	scroll-behavior: smooth;
-	scroll-padding-top: 92px;
+	scroll-padding-top: 96px;
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
