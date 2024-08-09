@@ -25,3 +25,5 @@ logs
 
 # bruno
 nuxt-pizza
+
+prisma/migrations

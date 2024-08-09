@@ -37,6 +37,13 @@ const products = [
 			'https://pizzahouse.ua/_next/image?url=https%3A%2F%2Fpizzahouse.ua%2Fmedia%2F5096%2Fconversions%2F%D1%84%D1%96%D0%BB%D0%B0-%D0%B0%D0%B2%D0%BE%D0%BA%D0%B0%D0%B4%D0%BE-(1)-medium.png&w=1920&q=100',
 		items: [{ price: 320 }],
 	},
+	{
+		id: 6,
+		name: 'Пицца 2',
+		imageUrl:
+			'https://pizzahouse.ua/_next/image?url=https%3A%2F%2Fpizzahouse.ua%2Fmedia%2F5096%2Fconversions%2F%D1%84%D1%96%D0%BB%D0%B0-%D0%B0%D0%B2%D0%BE%D0%BA%D0%B0%D0%B4%D0%BE-(1)-medium.png&w=1920&q=100',
+		items: [{ price: 320 }],
+	},
 ]
 </script>
 <template>

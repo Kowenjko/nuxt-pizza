@@ -16,12 +16,16 @@
     "prisma:preview": "prisma db pull",
     "prisma:seed": "prisma db seed"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@nuxt/fonts": "^0.7.1",
     "@nuxt/image": "^1.7.0",
     "@pinia/nuxt": "^0.5.3",
     "@prisma/client": "^5.18.0",
     "@vueuse/core": "^10.11.0",
+    "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.424.0",
@@ -37,7 +41,11 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^22.1.0",
+    "esbuild": "^0.23.0",
     "prisma": "^5.18.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
 }
