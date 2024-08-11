@@ -10,21 +10,22 @@ import {
 } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-const props = defineProps<SliderRootProps & {	class?: HTMLAttributes['class']}>()
+const props = defineProps<SliderRootProps & {	class?: HTMLAttributes['class'], modelValue:number |number[], min: number, max: number}>()
 const emits = defineEmits<SliderRootEmits>()
 
  const initialValue = Array.isArray(props.modelValue) ? props.modelValue : [props.min, props.max];
  const localValues = ref(initialValue)
 
 const delegatedProps = computed(() => {
-	const { class: _, ...delegated } = props
+	const { class: _, modelValue, ...delegated } = props
+
 
 	return delegated
 })
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 
-// watch([()=>props.min,()=>props.max, ()=>props.modelValue],()=>localValues.value= Array.isArray(props.modelValue) ? props.modelValue : [props.min, props.max])
+watch([()=>props.min,()=>props.max, ()=>props.modelValue],()=>localValues.value= Array.isArray(props.modelValue) ? props.modelValue : [props.min, props.max])
 </script>
 
 <template>

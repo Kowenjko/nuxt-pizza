@@ -1,21 +1,17 @@
 <script setup lang="ts">
-interface FilterCheckboxProps {
-	text: string
-	value: string
-	checked?: boolean
-	name?: string
-}
+import type { Ingredient } from '@prisma/client'
 
 interface IProps {
 	title: string
-	items: FilterCheckboxProps[]
-	defaultItems?: FilterCheckboxProps[]
+	items: Partial<Ingredient>[]
+	defaultItems?: Partial<Ingredient>[]
 	limit?: number
 	searchInputPlaceholder?: string
 	className?: string
-	selectedIds?: Set<string>
+	selectedIds?: string[]
 	loading?: boolean
 	name?: string
+	value: any[]
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -23,20 +19,38 @@ const props = withDefaults(defineProps<IProps>(), {
 	searchInputPlaceholder: '...Поиск',
 })
 
+const emit = defineEmits(['update:value'])
+
 const showAll = ref(false)
 const searchValue = ref('')
 
 const filteredItems = computed(() =>
 	props.items.filter((item) =>
-		item.text.toLowerCase().includes(searchValue.value.toLowerCase())
+		item?.name?.toLowerCase().includes(searchValue.value.toLowerCase())
 	)
 )
+
+const onClickCheckbox = (value: number) => {
+	let updateValue = [...props.value]
+	if (value) {
+		updateValue.push(value)
+	} else {
+		updateValue.splice(updateValue.indexOf(value), 1)
+	}
+
+	emit('update:value', updateValue)
+}
 
 const filtered = computed(() =>
 	showAll.value
 		? filteredItems.value
-		: props.defaultItems?.slice(0, props.limit)
+		: (props.defaultItems || filteredItems.value)?.slice(0, props.limit)
 )
+
+const checkedParams = (id: any) =>
+	props.value && id ? props.value?.includes(String(id)) : false
+
+// console.log(first)
 </script>
 <template>
 	<div>
@@ -64,10 +78,12 @@ const filtered = computed(() =>
 				<div class="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
 					<FiltersCheckbox
 						v-for="item in filtered"
-						:key="String(item.value)"
-						:text="item.text"
-						:value="item.value"
+						:key="String(item.id)"
+						:text="item?.name"
+						:value="item?.id"
 						:name="name"
+						:checked="checkedParams(item.id)"
+						@on-checked-change="onClickCheckbox"
 					/>
 				</div>
 				<div
