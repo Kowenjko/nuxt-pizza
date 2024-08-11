@@ -66,7 +66,8 @@ watch(filters, (value) => {
 })
 </script>
 <template>
-	<div class="sticky top-28">
+	<div>
+		<!-- <div class="sticky top-28"> -->
 		<div>
 			<AppTitle
 				text="Фильтрация"
