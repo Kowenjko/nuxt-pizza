@@ -49,8 +49,6 @@ const filtered = computed(() =>
 
 const checkedParams = (id: any) =>
 	props.value && id ? props.value?.includes(String(id)) : false
-
-// console.log(first)
 </script>
 <template>
 	<div>

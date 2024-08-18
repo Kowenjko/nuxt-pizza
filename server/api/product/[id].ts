@@ -6,7 +6,22 @@ export default defineEventHandler(async (event) => {
 
 	console.log(id)
 	const product = await prismadb.product.findFirst({
-		where: { id: id },
+		where: {
+			id: Number(id),
+		},
+		include: {
+			ingredients: true,
+			category: {
+				include: {
+					products: {
+						include: {
+							items: true,
+						},
+					},
+				},
+			},
+			items: true,
+		},
 	})
 	return product ?? null
 })

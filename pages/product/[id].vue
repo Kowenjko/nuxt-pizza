@@ -1,47 +1,48 @@
 <script setup lang="ts">
-import { errorHandler } from '@/server/utils/errorHandler'
-import type { Product } from '@prisma/client'
+import type { IProduct } from '@/types/prisma'
 
 const route = useRoute()
 
-const {
-	params: { id },
-} = route
+const { data: product } = await useFetch<IProduct>(
+	`/api/product/${route.params.id}`
+)
 
-const { data: product } = await useFetch<Product>(`/api/product/${id}`)
+if (!product.value)
+	showError({
+		statusCode: 404,
+		statusMessage: `Нет таково продукта ${route.params.id}`,
+	})
 
-// if (!product.value) errorHandler(404, 'Такого продукта нет')
+const isPizzaForm = computed(() => product.value?.items[0]?.pizzaType)
 
-// throw createError({
-// 	statusCode: 404,
-// 	statusMessage: 'Page Not Found',
-// 	data: {
-// 		myCustomField: true,
-// 	},
-// })
+const filterCategories = computed(() =>
+	product.value?.category.products.filter((pr) => pr.id !== product.value?.id)
+)
+
+definePageMeta({ layout: 'dashboard' })
 </script>
 <template>
-	<Container class="flex flex-col my-10">
-		<div class="flex flex-1">
-			<ProductImage :imageUrl="product?.imageUrl || ''" :size="40" />
-			<div class="w-[490px] bg-[#F7f6f5] p-7">
-				<AppTitle :text="product?.name" size="md" class="font-extrabold mb-1" />
-				<p class="text-gray-400">
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque
-					laboriosam vero voluptate, aperiam neque dolorem et quo numquam dicta
-					repudiandae esse! Unde ducimus, eaque harum officiis tempora totam
-					dolorum. Rem!
-				</p>
-				<ProductVariant
-					:items="[
-						{ name: '20 см', value: '20' },
-						{ name: '30 см', value: '30' },
-						{ name: '40 см', value: '40', disabled: true },
-					]"
-					:selectedValue="'30'"
-				/>
-			</div>
-		</div>
+	<Container class="flex flex-col my-10" v-if="product">
+		<ChoosePizzaForm
+			v-if="isPizzaForm"
+			:image-url="product.imageUrl"
+			:name="product.name"
+			:items="product.items"
+			:ingredients="product.ingredients"
+		/>
+		<ChooseProductForm
+			v-else
+			:image-url="product.imageUrl"
+			:name="product.name"
+		/>
+		<ProductGroupList
+			v-if="filterCategories && filterCategories.length > 0"
+			class="mt-20"
+			listClass="grid-cols-4"
+			title="Рекомендации"
+			:items="filterCategories"
+			:category-id="product.category.id"
+		/>
 	</Container>
 </template>
 

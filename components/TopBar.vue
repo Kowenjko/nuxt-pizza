@@ -6,15 +6,16 @@ interface Categories extends Category {
 }
 
 interface IProps {
-	categories: Categories[]
+	categories: any
 }
 
 const props = defineProps<IProps>()
 
-const filterCategories = computed(() =>
-	props.categories.filter(
-		(category: Categories) => category.products.length > 0
-	)
+const filterCategories = computed(
+	() =>
+		props.categories?.filter(
+			(category: Categories) => category.products.length > 0
+		) || []
 )
 </script>
 <template>

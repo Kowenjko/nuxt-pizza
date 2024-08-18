@@ -3,13 +3,15 @@ export default defineNuxtConfig({
 	compatibilityDate: '2024-04-03',
 	devtools: { enabled: false },
 	modules: [
-		'@nuxtjs/tailwindcss',
-		'shadcn-nuxt',
-		'@nuxt/fonts',
-		'nuxt-lucide-icons',
-		'@nuxt/image',
-		'@pinia/nuxt',
-	],
+        '@nuxtjs/tailwindcss',
+        'shadcn-nuxt',
+        '@nuxt/fonts',
+        'nuxt-lucide-icons',
+        '@nuxt/image',
+        '@pinia/nuxt',
+        'nuxt-pages-plus',
+        "nuxt-typed-router"
+    ],
 	fonts: {
 		families: [{ name: 'Nunito', provider: 'google' }],
 	},

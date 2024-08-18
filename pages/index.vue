@@ -29,6 +29,7 @@ useHead({ title: 'Главная' })
 			</div>
 		</div>
 	</Container>
+	<PlusModalPage name="modal" />
 </template>
 
 <style scoped></style>

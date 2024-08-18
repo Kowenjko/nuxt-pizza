@@ -7,12 +7,12 @@ type Variant = {
 
 interface IProps {
 	items: readonly Variant[]
-	className?: string
-	selectedValue?: Variant['value']
 }
 
 defineProps<IProps>()
 const emit = defineEmits(['button-click'])
+
+const model = defineModel()
 </script>
 <template>
 	<div
@@ -21,13 +21,13 @@ const emit = defineEmits(['button-click'])
 	>
 		<button
 			v-for="item in items"
+			@click="model = item.value"
 			:key="item.name"
 			class="flex items-center justify-center cursor-pointer h-[30px] px-5 flex-1 rounded-3xl transition-all duration-400 text-sm"
 			:class="{
-				'bg-white shadow': item.value === selectedValue,
+				'bg-white shadow': item.value === model,
 				'text-gray-500 opacity-50 pointer-events-none': item.disabled,
 			}"
-			@click="emit('button-click', item.value)"
 		>
 			{{ item.name }}
 		</button>

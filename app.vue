@@ -9,7 +9,7 @@ useHead({
 <template>
 	<suspense>
 		<NuxtLayout>
-			<NuxtPage />
+			<PlusModalNuxtPage />
 		</NuxtLayout>
 	</suspense>
 </template>
