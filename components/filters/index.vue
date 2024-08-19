@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Ingredient } from '@prisma/client'
+
 import qs from 'qs'
 
 const { data: ingredients, pending } = await useLazyFetch<Ingredient[]>(

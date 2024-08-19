@@ -4,12 +4,14 @@ import type { IProduct } from '@/types/prisma'
 const route = useRoute()
 
 const { data: product } = await useFetch<IProduct>(
+	// @ts-ignore
 	`/api/product/${route.params.id}`
 )
 
 if (!product.value)
 	showError({
 		statusCode: 404,
+		// @ts-ignore
 		statusMessage: `Нет таково продукта ${route.params.id}`,
 	})
 
