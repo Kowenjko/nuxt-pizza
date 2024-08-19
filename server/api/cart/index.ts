@@ -2,9 +2,7 @@ import prismadb from '@/lib/prismadb'
 
 export default defineEventHandler(async (event) => {
 	try {
-		const cookies = parseCookies(event)
-
-		const token = cookies?.cartToken
+		const token = parseCookies(event)?.cartToken
 
 		if (!token) return { totalAmount: 0, items: [] }
 

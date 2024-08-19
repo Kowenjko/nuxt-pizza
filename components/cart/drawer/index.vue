@@ -2,7 +2,7 @@
 import { useCartStore } from '@/store'
 
 const cartStore = useCartStore()
-await cartStore.fetchCartItems()
+await cartStore.getCartItems()
 </script>
 <template>
 	<Sheet>

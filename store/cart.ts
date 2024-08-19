@@ -23,7 +23,7 @@ export const useCartStore = defineStore('cart', () => {
 	 *  get cart user
 	 */
 
-	const fetchCartItems = async () => {
+	const getCartItems = async () => {
 		loading.value = true
 		const { pending, data, error: errorData } = await useLazyFetch('/api/cart')
 		loading.value = pending.value
@@ -40,7 +40,26 @@ export const useCartStore = defineStore('cart', () => {
 	/**
 	 *  update cart user
 	 */
-	const updateItemQuantity = () => {}
+	const updateItemQuantity = async (id: number, quantity: number) => {
+		loading.value = true
+
+		try {
+			const response = await $fetch(`/api/cart/${id}`, {
+				method: 'PATCH',
+				body: { quantity },
+			})
+
+			if (response) {
+				const result = getCartDetails(response)
+				items.value = result.items
+				totalAmount.value = result.totalAmount
+			}
+		} catch (err) {
+			error.value = true
+		} finally {
+			loading.value = false
+		}
+	}
 
 	/**
 	 *  add cart user
@@ -52,5 +71,5 @@ export const useCartStore = defineStore('cart', () => {
 	 */
 	const removeCartItem = () => {}
 
-	return { fetchCartItems, loading, items, totalAmount }
+	return { getCartItems, loading, items, totalAmount, updateItemQuantity }
 })

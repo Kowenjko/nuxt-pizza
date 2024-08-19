@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Ingredient } from '@prisma/client'
+import { useCartStore } from '@/store'
 
 interface IProps {
 	imageUrl: string
@@ -12,7 +12,15 @@ interface IProps {
 	type?: number | null
 }
 
-defineProps<IProps>()
+const props = defineProps<IProps>()
+
+const cartStore = useCartStore()
+const plus = async () => {
+	await cartStore.updateItemQuantity(props.id, props.quantity + 1)
+}
+const minus = async () => {
+	await cartStore.updateItemQuantity(props.id, props.quantity - 1)
+}
 </script>
 <template>
 	<div class="flex bg-white p-5 gap-6">
@@ -26,7 +34,7 @@ defineProps<IProps>()
 			/>
 			<hr class="my-3" />
 			<div class="flex items-center justify-between">
-				<ButtonCount :value="quantity" />
+				<ButtonCount :value="quantity" @plus="plus" @minus="minus" />
 
 				<div class="flex items-center gap-3">
 					<CartDrawerItemPrice :value="price" />
