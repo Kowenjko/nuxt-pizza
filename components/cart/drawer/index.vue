@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCartStore } from '@/store'
+
+const cartStore = useCartStore()
+await cartStore.fetchCartItems()
+</script>
 <template>
 	<Sheet>
 		<SheetTrigger as-child>
@@ -7,43 +12,27 @@
 		<SheetContent class="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
 			<SheetHeader>
 				<SheetTitle>
-					В корзине <span class="font-bold">3 товара</span>
+					В корзине
+					<span class="font-bold">{{ cartStore.items.length }} товара</span>
 				</SheetTitle>
 				<SheetDescription> </SheetDescription>
 			</SheetHeader>
-			<div class="-mx-6 mt-5 overflow-auto flex-1 scrollbar">
+			<div
+				class="-mx-6 mt-5 overflow-auto flex-1 scrollbar"
+				v-if="cartStore.items && cartStore.items.length > 0"
+			>
 				<CartDrawerItem
-					:id="1"
-					image-url="https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp"
-					:pizzaSize="30"
-					:type="1"
-					:ingredients="[{ name: 'test' }, { name: 'test 2' }]"
-					:price="250"
-					:quantity="1"
-					:name="'dfdfvdf'"
 					class="mb-2"
-				/>
-				<CartDrawerItem
-					:id="1"
-					image-url="https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp"
-					:pizzaSize="30"
-					:type="1"
-					:ingredients="[{ name: 'test' }, { name: 'test 2' }]"
-					:price="250"
-					:quantity="1"
-					:name="'dfdfvdf'"
-					class="mb-2"
-				/>
-				<CartDrawerItem
-					:id="1"
-					image-url="https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp"
-					:pizzaSize="30"
-					:type="1"
-					:ingredients="[{ name: 'test' }, { name: 'test 2' }]"
-					:price="250"
-					:quantity="1"
-					:name="'dfdfvdf'"
-					class="mb-2"
+					v-for="item in cartStore.items"
+					:key="item.id"
+					:id="item.id"
+					:image-url="item.imageUrl"
+					:pizzaSize="item.pizzaSize"
+					:type="item.type"
+					:ingredients="item.ingredients"
+					:price="item.price"
+					:quantity="item.quantity"
+					:name="item.name"
 				/>
 			</div>
 			<SheetFooter class="-mx-6 bg-white p-8">
@@ -56,7 +45,7 @@
 							/>
 						</span>
 
-						<span class="font-bold text-lg">500 ₽</span>
+						<span class="font-bold text-lg">{{ cartStore.totalAmount }} ₽</span>
 					</div>
 
 					<nuxt-link to="/cart">

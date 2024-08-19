@@ -1,8 +1,6 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-</script>
+<script setup lang="ts"></script>
 <template>
-	<header :class="cn('border border-b')">
+	<header class="border border-b">
 		<container class="flex items-center justify-between py-8">
 			<nuxt-link to="/">
 				<div class="flex items-center gap-4">
