@@ -21,6 +21,10 @@ const plus = async () => {
 const minus = async () => {
 	await cartStore.updateItemQuantity(props.id, props.quantity - 1)
 }
+
+const deletePizza = async () => {
+	await cartStore.removeCartItem(props.id)
+}
 </script>
 <template>
 	<div class="flex bg-white p-5 gap-6">
@@ -38,7 +42,7 @@ const minus = async () => {
 
 				<div class="flex items-center gap-3">
 					<CartDrawerItemPrice :value="price" />
-					<button>
+					<button @click="deletePizza">
 						<IconTrash2
 							class="text-gray-400 cursor-pointer hover:text-red-600 transition-all"
 							:size="16"

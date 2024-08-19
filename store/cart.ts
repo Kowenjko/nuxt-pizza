@@ -69,7 +69,30 @@ export const useCartStore = defineStore('cart', () => {
 	/**
 	 *  remove cart user
 	 */
-	const removeCartItem = () => {}
+	const removeCartItem = async (id: number) => {
+		loading.value = true
 
-	return { getCartItems, loading, items, totalAmount, updateItemQuantity }
+		try {
+			const response = await $fetch(`/api/cart/${id}`, { method: 'DELETE' })
+
+			if (response) {
+				const result = getCartDetails(response)
+				items.value = result.items
+				totalAmount.value = result.totalAmount
+			}
+		} catch (err) {
+			error.value = true
+		} finally {
+			loading.value = false
+		}
+	}
+
+	return {
+		getCartItems,
+		loading,
+		items,
+		totalAmount,
+		updateItemQuantity,
+		removeCartItem,
+	}
 })
