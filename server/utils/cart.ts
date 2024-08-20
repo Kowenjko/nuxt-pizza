@@ -50,3 +50,52 @@ export async function updateCartTotalAmount(token: string) {
 		},
 	})
 }
+
+export async function findOrCreateCart(token: string | undefined) {
+	let userCart = await prismadb.cart.findFirst({
+		where: {
+			OR: [{ token }],
+		},
+	})
+
+	if (!userCart) {
+		userCart = await prismadb.cart.create({
+			data: { token },
+		})
+	}
+
+	return userCart
+}
+
+export async function getCartTotalAmount(cartId: number): Promise<number> {
+	const userCartAfterUpdate = await prismadb.cart.findFirst({
+		where: {
+			id: cartId,
+		},
+		include: {
+			items: {
+				orderBy: {
+					createdAt: 'desc',
+				},
+				include: {
+					productItem: {
+						include: {
+							product: true,
+						},
+					},
+					ingredients: true,
+				},
+			},
+		},
+		orderBy: {
+			createdAt: 'desc',
+		},
+	})
+
+	const totalAmount = userCartAfterUpdate?.items.reduce(
+		(acc, item) => acc + calcCartItemTotalAmount(item),
+		0
+	)
+
+	return totalAmount ?? 0
+}
