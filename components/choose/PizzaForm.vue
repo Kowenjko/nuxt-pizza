@@ -10,6 +10,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>()
+const emits = defineEmits(['addPizzaToCart'])
 
 const size = ref(pizzaSizes[0].value)
 const type = ref(pizzaTypes[0].value || null)
@@ -58,12 +59,17 @@ const availablePizzaSizes = computed(() =>
 	}))
 )
 
+const currentItemId = computed(
+	() =>
+		props.items.find(
+			(item) =>
+				item.pizzaType === Number(type.value) && item.size === +size.value
+		)?.id
+)
+
 const addToCart = () => {
-	console.log({
-		size: size.value,
-		type: type.value,
-		ingredients: activeIngredients.value,
-	})
+	currentItemId.value &&
+		emits('addPizzaToCart', currentItemId.value, toRaw(activeIngredients.value))
 }
 
 watch(type, () => {

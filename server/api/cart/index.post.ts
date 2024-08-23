@@ -1,10 +1,6 @@
 import prismadb from '@/lib/prismadb'
 import crypto from 'crypto'
-import {
-	findOrCreateCart,
-	updateCartTotalAmount,
-	getCartTotalAmount,
-} from '@/server/utils'
+import { findOrCreateCart, updateCartTotalAmount } from '@/server/utils'
 
 export default defineEventHandler(async (event) => {
 	try {
@@ -26,7 +22,7 @@ export default defineEventHandler(async (event) => {
 		})
 
 		if (findCartItem) {
-			const updatedCartItem = await prismadb.cartItem.update({
+			await prismadb.cartItem.update({
 				where: {
 					id: findCartItem.id,
 				},

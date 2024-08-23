@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { IProduct } from '@/types/prisma'
 
+import { useCartStore } from '@/store'
+
 const props = defineProps<{ product: IProduct }>()
 
 const isOpen = ref(true)
+const firstItems = ref(props.product.items[0])
 const { $modalRouter } = useNuxtApp()
+const cartStore = useCartStore()
 
 const close = () => {
 	isOpen.value = false
@@ -12,7 +16,14 @@ const close = () => {
 	$modalRouter.close()
 }
 
-const isPizzaForm = computed(() => props.product.items[0].pizzaType)
+const isPizzaForm = computed(() => firstItems.value.pizzaType)
+
+const onAddProduct = async () =>
+	await cartStore.addCartItem({ productItemId: firstItems.value.id })
+
+const onAddPizza = async (productItemId: number, ingredients: number[]) => {
+	await cartStore.addCartItem({ productItemId, ingredients })
+}
 </script>
 <template>
 	<Dialog :open="true" @update:open="close">
@@ -28,11 +39,14 @@ const isPizzaForm = computed(() => props.product.items[0].pizzaType)
 				:name="product.name"
 				:items="product.items"
 				:ingredients="product.ingredients"
+				@addPizzaToCart="onAddPizza"
 			/>
 			<ChooseProductForm
 				v-else
 				:image-url="product.imageUrl"
 				:name="product.name"
+				:price="firstItems.price"
+				@addProductToCart="onAddProduct"
 			/>
 		</DialogContent>
 	</Dialog>
