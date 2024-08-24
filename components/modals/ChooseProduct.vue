@@ -7,7 +7,8 @@ const props = defineProps<{ product: IProduct }>()
 
 const isOpen = ref(true)
 const firstItems = ref(props.product.items[0])
-const { $modalRouter } = useNuxtApp()
+
+const { $modalRouter, $toast } = useNuxtApp()
 const cartStore = useCartStore()
 
 const close = () => {
@@ -22,7 +23,12 @@ const onAddProduct = async () =>
 	await cartStore.addCartItem({ productItemId: firstItems.value.id })
 
 const onAddPizza = async (productItemId: number, ingredients: number[]) => {
-	await cartStore.addCartItem({ productItemId, ingredients })
+	try {
+		await cartStore.addCartItem({ productItemId, ingredients })
+	} catch (error) {
+		$toast.error('Продукт добавлено')
+		console.log(error)
+	}
 }
 </script>
 <template>

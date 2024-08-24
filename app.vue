@@ -10,6 +10,7 @@ useHead({
 	<suspense>
 		<NuxtLayout>
 			<PlusModalNuxtPage />
+			<Toaster richColors position="top-right" />
 		</NuxtLayout>
 	</suspense>
 </template>
