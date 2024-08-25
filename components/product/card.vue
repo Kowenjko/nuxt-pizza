@@ -4,9 +4,16 @@ interface IProps {
 	name: string
 	price: number
 	imageUrl: string
+	ingredients?: any[]
 }
 
-defineProps<IProps>()
+const props = defineProps<IProps>()
+
+const details: any = []
+
+if (props.ingredients) {
+	details.push(...props.ingredients.map((ingredient) => ingredient.name))
+}
 </script>
 
 <template>
@@ -22,10 +29,7 @@ defineProps<IProps>()
 			/>
 		</div>
 		<AppTitle :text="name" size="sm" class="mb-1 mt-3 font-bold" />
-		<p class="text-sm text-gray-400">
-			Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус
-			альфредо, чеснок
-		</p>
+		<p class="text-sm text-gray-400">{{ details.join(', ') }}</p>
 		<div class="flex justify-between items-center mt-4">
 			<span class="text-[20px]">
 				от <b>{{ price }} $</b>

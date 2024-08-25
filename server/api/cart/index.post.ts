@@ -35,23 +35,23 @@ export default defineEventHandler(async (event) => {
 			setCookie(event, 'cartToken', token)
 
 			return updateUserCart
-		}
-
-		await prismadb.cartItem.create({
-			data: {
-				cartId: userCart.id,
-				productItemId: body.productItemId,
-				quantity: 1,
-				ingredients: {
-					connect: body.ingredients?.map((id: number) => ({ id })),
+		} else {
+			await prismadb.cartItem.create({
+				data: {
+					cartId: userCart.id,
+					productItemId: body.productItemId,
+					quantity: 1,
+					ingredients: {
+						connect: body.ingredients?.map((id: number) => ({ id })),
+					},
 				},
-			},
-		})
+			})
 
-		const updatedCart = await updateCartTotalAmount(token)
-		setCookie(event, 'cartToken', token)
+			const updatedCart = await updateCartTotalAmount(token)
+			setCookie(event, 'cartToken', token)
 
-		return updatedCart
+			return updatedCart
+		}
 	} catch (error) {
 		console.log(error)
 		errorHandler(500, 'Internal Error')

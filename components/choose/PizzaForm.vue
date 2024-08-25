@@ -7,6 +7,7 @@ interface IProps {
 	name: string
 	ingredients: IProduct['ingredients']
 	items: IProduct['items']
+	loading?: boolean
 }
 
 const props = defineProps<IProps>()
@@ -112,6 +113,7 @@ watch(type, () => {
 			<Button
 				class="h-[55px] px-10 text-base rounded-[18px] w-full mt-8"
 				@click="addToCart"
+				:loading="loading"
 			>
 				Добавить в корзину за {{ totalPrice }} $
 			</Button>

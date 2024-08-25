@@ -19,14 +19,24 @@ const close = () => {
 
 const isPizzaForm = computed(() => firstItems.value.pizzaType)
 
-const onAddProduct = async () =>
-	await cartStore.addCartItem({ productItemId: firstItems.value.id })
+const onAddProduct = async () => {
+	try {
+		await cartStore.addCartItem({ productItemId: firstItems.value.id })
+		$toast.success('Продукт добавлен в корзину')
+		close()
+	} catch (error) {
+		$toast.error('Произошла ошибка при добавлении в корзину')
+		console.log(error)
+	}
+}
 
 const onAddPizza = async (productItemId: number, ingredients: number[]) => {
 	try {
 		await cartStore.addCartItem({ productItemId, ingredients })
+		$toast.success('Пицца добавлена в корзину')
+		close()
 	} catch (error) {
-		$toast.error('Продукт добавлено')
+		$toast.error('Произошла ошибка при добавлении в корзину')
 		console.log(error)
 	}
 }
@@ -45,13 +55,15 @@ const onAddPizza = async (productItemId: number, ingredients: number[]) => {
 				:name="product.name"
 				:items="product.items"
 				:ingredients="product.ingredients"
+				:loading="cartStore.loading"
 				@addPizzaToCart="onAddPizza"
 			/>
 			<ChooseProductForm
 				v-else
 				:image-url="product.imageUrl"
 				:name="product.name"
-				:price="firstItems.price"
+				:price="firstItems?.price"
+				:loading="cartStore.loading"
 				@addProductToCart="onAddProduct"
 			/>
 		</DialogContent>

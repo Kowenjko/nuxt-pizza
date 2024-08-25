@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const { data: categories } = await useFetch('/api/categories')
+const route = useRoute()
+
+const url = computed(() => {
+	return `/api/categories${route.fullPath}`
+})
+
+const { data: categories } = await useFetch(url)
 
 useHead({ title: 'Главная' })
 </script>

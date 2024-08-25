@@ -65,7 +65,6 @@ export const useCartStore = defineStore('cart', () => {
 	 *  add cart user
 	 */
 	const addCartItem = async (values: any) => {
-		console.log('values', values)
 		loading.value = true
 		try {
 			const response = await $fetch(`/api/cart`, {
@@ -73,11 +72,9 @@ export const useCartStore = defineStore('cart', () => {
 				body: values,
 			})
 
-			console.log(response)
+			// console.log(response)
 			if (response) {
-				const result = getCartDetails(response)
-				items.value = result.items
-				totalAmount.value = result.totalAmount
+				await getCartItems()
 			}
 		} catch (err) {
 			error.value = true

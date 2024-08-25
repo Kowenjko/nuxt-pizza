@@ -2,12 +2,11 @@
 interface IProps {
 	imageUrl: string
 	name: string
-	price: number
+	price?: number
+	loading?: boolean
 }
 
 defineProps<IProps>()
-
-const totalPrice = 350
 </script>
 <template>
 	<div class="flex flex-1">
@@ -18,6 +17,7 @@ const totalPrice = 350
 			<Button
 				@click="$emit('addProductToCart')"
 				class="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+				:loading="loading"
 			>
 				Добавить в корзину за {{ price }} $
 			</Button>

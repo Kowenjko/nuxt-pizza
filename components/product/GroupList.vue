@@ -33,20 +33,26 @@ const filterProducts = computed(() =>
 )
 </script>
 <template>
-	<div class="font-extrabold mb-5" :id="title" ref="rootRef">
+	<div
+		class="font-extrabold mb-5"
+		:id="title"
+		ref="rootRef"
+		v-if="filterProducts && filterProducts.length > 0"
+	>
 		<AppTitle :text="title" size="lg" class="font-extrabold mb-5" />
 		<div
 			ref="intersectionRef"
 			class="grid grid-cols-3 gap-[50px]"
 			:class="listClass"
 		>
-			<ProductCart
+			<ProductCard
 				v-for="product in filterProducts"
 				:key="product.id"
 				:id="product.id"
 				:name="product.name"
 				:price="product.items[0].price"
 				:image-url="product.imageUrl"
+				:ingredients="product.ingredients"
 			/>
 		</div>
 	</div>
