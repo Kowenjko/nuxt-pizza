@@ -11,6 +11,7 @@ export type ICartItem = {
 	pizzaSize?: number | null
 	type?: number | null
 	ingredients: Array<{ name: string; price: number }>
+	disabled?: boolean
 }
 
 export const useCartStore = defineStore('cart', () => {
@@ -18,6 +19,7 @@ export const useCartStore = defineStore('cart', () => {
 	const items = ref<ICartItem[]>([])
 	const error = ref(false)
 	const totalAmount = ref(0)
+	const productId = ref<number | null>(null)
 
 	/**
 	 *  get cart user
@@ -25,15 +27,18 @@ export const useCartStore = defineStore('cart', () => {
 
 	const getCartItems = async () => {
 		loading.value = true
-		const { pending, data, error: errorData } = await useLazyFetch('/api/cart')
-		loading.value = pending.value
 
-		if (errorData.value) error.value = true
-
-		if (data.value) {
-			const result = getCartDetails(data.value)
-			items.value = result.items
-			totalAmount.value = result.totalAmount
+		try {
+			const response = await $fetch('/api/cart')
+			if (response) {
+				const result = getCartDetails(response)
+				items.value = result.items
+				totalAmount.value = result.totalAmount
+			}
+		} catch (err) {
+			error.value = true
+		} finally {
+			loading.value = false
 		}
 	}
 
@@ -66,20 +71,23 @@ export const useCartStore = defineStore('cart', () => {
 	 */
 	const addCartItem = async (values: any) => {
 		loading.value = true
+		productId.value = values.productItemId
 		try {
 			const response = await $fetch(`/api/cart`, {
 				method: 'POST',
 				body: values,
 			})
 
-			// console.log(response)
 			if (response) {
-				await getCartItems()
+				const result = getCartDetails(response)
+				items.value = result.items
+				totalAmount.value = result.totalAmount
 			}
 		} catch (err) {
 			error.value = true
 		} finally {
 			loading.value = false
+			productId.value = null
 		}
 	}
 
@@ -90,6 +98,9 @@ export const useCartStore = defineStore('cart', () => {
 		loading.value = true
 
 		try {
+			items.value = items.value.map((item) =>
+				item.id === id ? { ...item, disabled: true } : item
+			)
 			const response = await $fetch(`/api/cart/${id}`, { method: 'DELETE' })
 
 			if (response) {
@@ -99,6 +110,9 @@ export const useCartStore = defineStore('cart', () => {
 			}
 		} catch (err) {
 			error.value = true
+			items.value = items.value.map((item) =>
+				item.id === id ? { ...item, disabled: false } : item
+			)
 		} finally {
 			loading.value = false
 		}
@@ -112,5 +126,6 @@ export const useCartStore = defineStore('cart', () => {
 		updateItemQuantity,
 		removeCartItem,
 		addCartItem,
+		productId,
 	}
 })

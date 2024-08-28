@@ -19,21 +19,13 @@ const close = () => {
 
 const isPizzaForm = computed(() => firstItems.value.pizzaType)
 
-const onAddProduct = async () => {
+const onAddProduct = async (productItemId: number, ingredients: number[]) => {
 	try {
-		await cartStore.addCartItem({ productItemId: firstItems.value.id })
-		$toast.success('Продукт добавлен в корзину')
-		close()
-	} catch (error) {
-		$toast.error('Произошла ошибка при добавлении в корзину')
-		console.log(error)
-	}
-}
-
-const onAddPizza = async (productItemId: number, ingredients: number[]) => {
-	try {
-		await cartStore.addCartItem({ productItemId, ingredients })
-		$toast.success('Пицца добавлена в корзину')
+		await cartStore.addCartItem({
+			productItemId: productItemId || firstItems.value.id,
+			ingredients: ingredients || [],
+		})
+		$toast.success('Продукт добавлена в корзину')
 		close()
 	} catch (error) {
 		$toast.error('Произошла ошибка при добавлении в корзину')
@@ -56,7 +48,7 @@ const onAddPizza = async (productItemId: number, ingredients: number[]) => {
 				:items="product.items"
 				:ingredients="product.ingredients"
 				:loading="cartStore.loading"
-				@addPizzaToCart="onAddPizza"
+				@addPizzaToCart="onAddProduct"
 			/>
 			<ChooseProductForm
 				v-else

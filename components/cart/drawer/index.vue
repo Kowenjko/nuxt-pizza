@@ -67,6 +67,7 @@ await cartStore.getCartItems()
 						:price="item.price"
 						:quantity="item.quantity"
 						:name="item.name"
+						:disabled="item.disabled"
 					/>
 				</div>
 				<SheetFooter

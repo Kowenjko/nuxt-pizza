@@ -10,6 +10,7 @@ interface IProps {
 	ingredients?: any[]
 	pizzaSize?: number | null
 	type?: number | null
+	disabled?: boolean
 }
 
 const props = defineProps<IProps>()
@@ -27,7 +28,10 @@ const deletePizza = async () => {
 }
 </script>
 <template>
-	<div class="flex bg-white p-5 gap-6">
+	<div
+		class="flex bg-white p-5 gap-6"
+		:class="{ 'opacity-50 pointer-events-none': disabled }"
+	>
 		<CartDrawerItemImage :src="imageUrl" />
 		<div class="flex-1">
 			<CartDrawerItemInfo
