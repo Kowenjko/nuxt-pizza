@@ -75,35 +75,45 @@ definePageMeta({ layout: 'checkout' })
   					<div class="flex flex-col gap-1">
               <span class="text-xl">Итого:</span>
               <ClientOnly>
-                <Skeleton v-if="cartStore.loading" class="w-[130px] h-9"/>
-                <span v-else class="text-3xl font-extrabold">{{ totalPrice }} $</span>
+                <!-- <Skeleton v-if="cartStore.loading" class="w-[130px] h-9"/> -->
+                <span  class="text-3xl font-extrabold">{{ totalPrice }} $</span>
               </ClientOnly>
             </div>
-            <ClientOnly>
-              <ul>
+
+
+           <div class="flex flex-col gap-4" v-if="loading">
+            <Skeleton class="w-[130px] h-9 mb-2"/>
+             <Skeleton class="w-full h-7" v-for="i in 3" :key="i"  />
+            </div>
+              <ul v-else>
                 <li class="flex my-4 items-center">
                   <IconPackage class="mr-2 text-gray-300" :size="18"/>
                   <span class="flex flex-1 text-lg text-neutral-500">Стоимость товаров:
                     <div class="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-3"></div>
                   </span>
-                  <span class="font-bold text-lg"> {{ cartStore.totalAmount }} $</span>
+                  <ClientOnly > 
+                   <!-- <Skeleton v-if="cartStore.loading" class="w-[80px] h-7"/> -->
+                  <span  class="font-bold text-lg"> {{ cartStore.totalAmount }} $</span>
+                </ClientOnly>
                 </li>
                 <li class="flex my-4 items-center">
                   <IconPercent class="mr-2 text-gray-300" :size="18"/>
                   <span class="flex flex-1 text-lg text-neutral-500">Налоги:
                     <div class="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-3"></div>
                   </span>
-                  <span class="font-bold text-lg"> {{ vatPrice }} $</span>
+                   <!-- <Skeleton v-if="cartStore.loading" class="w-[80px] h-7"/> -->
+                  <span  class="font-bold text-lg"> {{ vatPrice }} $</span>
                 </li>
                 <li class="flex my-4 items-center">
                   <IconTruck class="mr-2 text-gray-300" :size="18"/>
                   <span class="flex flex-1 text-lg text-neutral-500">Доставка:
                     <div class="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-3"></div>
                   </span>
-                  <span class="font-bold text-lg"> {{ DELIVERY_PRICE }} $</span>
+                   <!-- <Skeleton v-if="cartStore.loading" class="w-[80px] h-7"/> -->
+                  <span  class="font-bold text-lg"> {{ DELIVERY_PRICE }} $</span>
                 </li>
               </ul>
-            </ClientOnly>
+           
   
             <Button class="w-full h-14 rounded-2xl mt-6 text-base font-bold">Перейти к оплате <IconArrowRight class="w-5 ml-2"/></Button>
   				</WhiteBlock>
