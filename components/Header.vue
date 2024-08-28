@@ -1,6 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+withDefaults(defineProps<{ hasSearch?: boolean; hasCart?: boolean }>(), {
+	hasSearch: true,
+	hasCart: true,
+})
+</script>
 <template>
-	<header class="border border-b">
+	<header class="border-b">
 		<container class="flex items-center justify-between py-8">
 			<nuxt-link to="/">
 				<div class="flex items-center gap-4">
@@ -16,7 +21,7 @@
 					</div>
 				</div>
 			</nuxt-link>
-			<div class="mx-10 flex-1">
+			<div class="mx-10 flex-1" v-if="hasSearch">
 				<SearchInput />
 			</div>
 			<div class="flex items-center gap-3">
@@ -24,7 +29,7 @@
 					<IconUser :size="16" />
 					Войти
 				</Button>
-				<ButtonCart />
+				<ButtonCart v-if="hasCart" />
 			</div>
 		</container>
 	</header>

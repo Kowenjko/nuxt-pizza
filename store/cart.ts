@@ -34,11 +34,12 @@ export const useCartStore = defineStore('cart', () => {
 				const result = getCartDetails(response)
 				items.value = result.items
 				totalAmount.value = result.totalAmount
+				loading.value = false
 			}
 		} catch (err) {
 			error.value = true
-		} finally {
 			loading.value = false
+		} finally {
 		}
 	}
 

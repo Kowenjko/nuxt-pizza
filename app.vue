@@ -3,7 +3,7 @@ import { Toaster } from 'vue-sonner'
 
 useHead({
 	titleTemplate: (titleChunk) => {
-		return titleChunk ? `${titleChunk} - pizza` : 'pizza'
+		return titleChunk ? `Nuxt Pizza | ${titleChunk}` : 'Nuxt Pizza'
 	},
 })
 </script>

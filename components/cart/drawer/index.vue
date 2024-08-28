@@ -88,7 +88,7 @@ await cartStore.getCartItems()
 							>
 						</div>
 
-						<nuxt-link to="/cart">
+						<nuxt-link to="/checkout">
 							<Button
 								type="submit"
 								class="w-full h-12 text-base"

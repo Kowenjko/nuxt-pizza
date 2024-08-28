@@ -25,7 +25,7 @@
     "@pinia/nuxt": "^0.5.3",
     "@prisma/client": "^5.18.0",
     "@types/qs": "^6.9.15",
-    "@vueuse/core": "^10.11.0",
+    "@vueuse/core": "^10.11.1",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -42,6 +42,7 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul-vue": "^0.2.0",
     "vue": "^3.4.36",
+    "vue-dadata": "^3.0.0-beta.13",
     "vue-sonner": "^1.1.4"
   },
   "devDependencies": {
