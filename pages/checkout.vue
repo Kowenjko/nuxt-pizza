@@ -2,7 +2,9 @@
 import { useCartStore } from '@/store'
 
 const cartStore = useCartStore()
+const { $toast } = useNuxtApp()
 const loading = ref(true)
+const loadingOrder = ref(false)
 
 if(cartStore.items.length<=0) await cartStore.getCartItems()
 
@@ -21,8 +23,29 @@ const formData = reactive({
 const vatPrice = computed(()=>cartStore.totalAmount * VAT / 100)
 const totalPrice = computed(()=>cartStore.totalAmount + vatPrice.value + DELIVERY_PRICE)
 
+const onSubmit = async()=>{
+  loadingOrder.value = true
+try {
+
+  const url = await $fetch('/api/order',{
+    method:'POST',
+    body:{...formData, totalAmount: totalPrice.value}
+  })
+  $toast.success('Заказ успешно оформлен!')
+
+if(url) location.href = url
+
+  
+} catch (error) {
+  $toast.error('Не удалось создать заказ')
+} finally{
+  loadingOrder.value = false
+}
+
+}
+
 onMounted(() => {
-  loading.value=false
+  loading.value = false
 })
 
 definePageMeta({ layout: 'checkout' })
@@ -115,7 +138,7 @@ definePageMeta({ layout: 'checkout' })
               </ul>
            
   
-            <Button class="w-full h-14 rounded-2xl mt-6 text-base font-bold">Перейти к оплате <IconArrowRight class="w-5 ml-2"/></Button>
+            <Button @click="onSubmit" :loading="loadingOrder" class="w-full h-14 rounded-2xl mt-6 text-base font-bold">Перейти к оплате <IconArrowRight class="w-5 ml-2"/></Button>
   				</WhiteBlock>
         
         </div>
