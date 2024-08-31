@@ -84,7 +84,7 @@ await cartStore.getCartItems()
 							</span>
 
 							<span class="font-bold text-lg"
-								>{{ cartStore.totalAmount }} ₽</span
+								>{{ cartStore.totalAmount }} $</span
 							>
 						</div>
 

@@ -25,4 +25,9 @@ export default defineNuxtConfig({
 	lucide: {
 		namePrefix: 'Icon',
 	},
+	runtimeConfig: {
+		stripeApiKey: process.env.STRIPE_API_KEY,
+		stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+		publicAppUrl: process.env.PUBLIC_APP_URL,
+	},
 })

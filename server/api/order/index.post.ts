@@ -3,14 +3,14 @@ import { OrderStatus, Prisma, UserRole } from '@prisma/client'
 
 import { Resend } from 'resend'
 
+import { createPayment } from '@/server/utils/create-payment'
+
 export default defineEventHandler(async (event) => {
 	try {
 		let token = parseCookies(event)?.cartToken
 		const body = await readBody(event)
 
 		const resend = new Resend(process.env.RESEND_API_KEY)
-
-		console.log(process.env.RESEND_API_KEY)
 
 		const userCart = await prismadb.cart.findFirst({
 			include: {
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
 				token,
 				totalAmount: body.totalAmount,
 				status: OrderStatus.PENDING,
-				items: [],
+				items: userCart.items,
 				fullName: body.firstName + ' ' + body.lastName,
 				email: body.email,
 				phone: body.phone,
@@ -79,22 +79,33 @@ export default defineEventHandler(async (event) => {
 		 * create pay
 		 */
 
+		const paymentData = await createPayment({
+			orderId: order.id,
+			amount: order.totalAmount,
+			description: `Заказ #${order.id}`,
+		})
+
+		if (!paymentData?.url) return errorHandler(500, 'Payment data not found')
+
+		/**
+		 * send message
+		 */
 		const html = `
       <h1>Заказ #${order?.id}</h1>
 
-			// <p>Оплатите заказ на сумму <b>${order?.totalAmount} $</b>. Перейдите <a href="https://vuejs.org/guide/components/slots.html#slot-content-and-outlet">по ссылке</a> для оплаты заказа.</p>
+		  <p>Оплатите заказ на сумму <b>${order?.totalAmount} $</b>. Перейдите <a href="${paymentData?.url}">по ссылке</a> для оплаты заказа.</p>
 			`
 
-		const data = await resend.emails.send({
+		await resend.emails.send({
 			from: 'onboarding@resend.dev',
 			to: 'ortoswt@gmail.com',
-			subject: `Next Pizza / Оплатите заказ #${order?.id}`,
+			subject: `Nuxt Pizza / Оплатите заказ #${order?.id}`,
 			html,
 		})
 
-		return 'https://vuejs.org/guide/components/slots.html#slot-content-and-outlet'
+		return paymentData?.url
 	} catch (error) {
 		console.log(error)
-		errorHandler(500, 'Internal Error')
+		setResponseStatus(event, 500)
 	}
 })
