@@ -5,6 +5,7 @@ useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `Nuxt Pizza | ${titleChunk}` : 'Nuxt Pizza'
 	},
+	link: [{ rel: 'icon', type: 'image/png', href: '/images/logo.png' }],
 })
 </script>
 
